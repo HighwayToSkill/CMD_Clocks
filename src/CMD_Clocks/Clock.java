@@ -2,11 +2,8 @@ package CMD_Clocks;
 
 import javax.swing.*;
 import java.awt.*;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 public class Clock {
 
@@ -17,76 +14,88 @@ public class Clock {
             @Override
             public void run() {
                 MainFrame frame = new MainFrame();
-                frame.setVisible(true);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.pack();
+                //frame.setVisible(true);
+                frame.setVisible(true);
             }
         });
     }
 
 }
 
-class Time{
-    private String time;
-    private PropertyChangeSupport support= new PropertyChangeSupport(this);
+class MainFrame extends JFrame{
+    MainFrame(){
+        setTitle("ASCII Clock");
 
-    public void addListener(PropertyChangeListener listener){
-        support.addPropertyChangeListener(listener);
-    }
 
-    public void removeListenere(PropertyChangeListener listener){
-        support.removePropertyChangeListener(listener);
-    }
+        //ClockPanel clock = new ClockPanel();
+        add(new ClockPanel());
+        //pack();
 
-    public void setVariable(String time){
-
+        setSize(300,300);
     }
 }
 
-class MainFrame extends JFrame{
-    Calendar cal;
-    Date date;
-    private String time;
-    JTextArea textArea;
+class ClockPanel extends JPanel{
+    //private Calendar cal;
+    private JTextArea textArea;
+    //private JPanel panel;
 
+    ClockPanel(){
 
-    MainFrame(){
         textArea = new JTextArea(8, 50);
-        textArea.setEditable(false);
-        cal = Calendar.getInstance();
+        textArea.setText("hey" + " \n" + "you" + "\n" + "why" + "\n" + "the"+ "\n"+ "fuck" + "\n" + "you" + "\n" + "invisible");
+        //textArea.setEditable(false);
+        JPanel panel = new JPanel();
+        //cal = Calendar.getInstance();
+        //panel.add(textArea);
+
+        //add(panel);
+        add(textArea);
         start();
 
     }
 
     public void start(){
-        JPanel panel = new JPanel();
-        panel.add(textArea);
-        getContentPane().add(BorderLayout.CENTER,panel);
 
+        String time = (new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
 
 
 
         while (true) {
 
             String theTime = (new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
-
-            char[] sign = time.toCharArray();
-            for (int line = 0; line < 7; line ++) {
-                for (int i = 0; i < 8; i++) {
-                    String s = String.valueOf(sign[i]);
-                    if (s.equals(":")) {
-                        System.out.print(view[line][10]);
-                    } else {
-                        System.out.print(view[line][Integer.parseInt(s)]);
+            String text ="";
+            if(!theTime.equals(time)){
+                char[] sign = theTime.toCharArray();
+                for (int line = 0; line < 7; line ++) {
+                    for (int i = 0; i < 8; i++) {
+                        String s = String.valueOf(sign[i]);
+                        if (s.equals(":")) {
+                            System.out.print(view[line][10]);
+                            text += view[line][10];
+                        } else {
+                            System.out.print(view[line][Integer.parseInt(s)]);
+                            text += view[line][Integer.parseInt(s)];
+                        }
                     }
+                    text += "\n";
+                    System.out.println("");
                 }
-                System.out.println("");
+                textArea.setText(text);
+                System.out.println("\n");
+                /*try{
+                    Thread.sleep(500);
+                }catch (Exception ex){ex.printStackTrace();}
+                */
+            }else{
+                try{
+                    Thread.sleep(500);
+                }catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
-            System.out.println("\n");
-            try{
-                Thread.sleep(950);
-            }catch (Exception ex){ex.printStackTrace();}
-
+            time = theTime;
         }
     }
 
