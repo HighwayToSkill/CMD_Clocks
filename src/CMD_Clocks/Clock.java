@@ -10,53 +10,38 @@ public class Clock {
 
 
     public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                MainFrame frame = new MainFrame();
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                //frame.setVisible(true);
-                frame.setVisible(true);
-            }
-        });
+        ClockFrame clock = new ClockFrame();
+        clock.start();
     }
 
 }
 
-class MainFrame extends JFrame{
-    MainFrame(){
-        setTitle("ASCII Clock");
 
-
-        //ClockPanel clock = new ClockPanel();
-        add(new ClockPanel());
-        //pack();
-
-        setSize(300,300);
-    }
-}
-
-class ClockPanel extends JPanel{
-    //private Calendar cal;
+class ClockFrame{
     private JTextArea textArea;
-    //private JPanel panel;
 
-    ClockPanel(){
+    ClockFrame(){
+        JFrame mainFrame = new JFrame();
+        mainFrame.setTitle("ASCII CLOCK");
 
         textArea = new JTextArea(8, 50);
-        textArea.setText("hey" + " \n" + "you" + "\n" + "why" + "\n" + "the"+ "\n"+ "fuck" + "\n" + "you" + "\n" + "invisible");
-        //textArea.setEditable(false);
-        JPanel panel = new JPanel();
-        //cal = Calendar.getInstance();
-        //panel.add(textArea);
+        textArea.setEditable(false);
+        textArea.setFont(new Font("monospaced", Font.PLAIN, 24));
 
-        //add(panel);
-        add(textArea);
-        start();
+        JPanel panel = new JPanel();
+        panel.add(textArea);
+        mainFrame.getContentPane().add(panel);
+
+
+        mainFrame.setVisible(true);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        mainFrame.pack();
 
     }
 
     public void start(){
+
 
         String time = (new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
 
@@ -84,6 +69,7 @@ class ClockPanel extends JPanel{
                 }
                 textArea.setText(text);
                 System.out.println("\n");
+                System.out.println(text +"\n"+"\n");
                 /*try{
                     Thread.sleep(500);
                 }catch (Exception ex){ex.printStackTrace();}
