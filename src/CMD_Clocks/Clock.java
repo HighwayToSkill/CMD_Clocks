@@ -13,7 +13,6 @@ public class Clock {
 
     public static void main(String[] args) {
         ClockFrame clock = new ClockFrame();
-        //clock.start('*');
     }
 
 }
@@ -24,11 +23,11 @@ class ClockFrame{
     JFrame mainFrame;
     JPanel panel;
     char newFont;
-    JButton button;
     static char oldFont = '*';
     static boolean start = false;
-    JButton buttonTwo;
 
+    //JButton buttonTwo;
+    //JButton button;
     ClockFrame(){
         newFont = '*';
 
@@ -53,14 +52,6 @@ class ClockFrame{
         mainFrame.setJMenuBar(menuBar);
         settingsMenu.addActionListener(new MenuListener());
 
-        /*button = new JButton("test");
-        button.addActionListener(new ButtonListener());
-        panel.add(button);
-
-        buttonTwo = new JButton("2");
-        buttonTwo.addActionListener(new ButtonTwoListener());
-        panel.add(buttonTwo);*/
-
 
         mainFrame.setVisible(true);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -73,14 +64,14 @@ class ClockFrame{
     public class MenuListener implements ActionListener{
         public void actionPerformed(ActionEvent ev){
             Settings settings = new Settings();
-            //start = false;
             settings.buildGui();
         }
     }
 
 
 
-    /*public class ButtonListener implements ActionListener{
+    /*Кнопки для тестов
+    public class ButtonListener implements ActionListener{
         public void actionPerformed(ActionEvent ev){
             //textArea.setFont(new Font("monospaced", Font.PLAIN, 48));
             //panel.removeAll();
@@ -104,9 +95,6 @@ class ClockFrame{
 
 
     public void start(){
-        //this.font = font;
-        //panel.add(button);
-        //panel.add(textArea);
         start = true;
         String time = (new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
 
@@ -122,26 +110,20 @@ class ClockFrame{
                     for (int i = 0; i < 8; i++) {
                         String s = String.valueOf(sign[i]);
                         if (s.equals(":")) {
-                            //System.out.print(view[line][10]);
                             text = text.concat(view[line][10]);
                         } else {
-                            //System.out.print(view[line][Integer.parseInt(s)]);
                             text = text.concat(view[line][Integer.parseInt(s)]);
-                            //text += view[line][Integer.parseInt(s)].replace("*", "xxx");
+
                         }
                     }
                     text =text.concat("\n");
                     System.out.println("");
                 }
                 System.out.println(text.replace(oldFont,newFont));
-                //text = text.replace(' ', 'e');
+
                 textArea.setText(text.replace(oldFont,newFont));
                 System.out.println("\n");
-                //System.out.println(text +"\n"+"\n");
-                /*try{
-                    Thread.sleep(500);
-                }catch (Exception ex){ex.printStackTrace();}
-                */
+
             }else{
                 try{
                     Thread.sleep(100);
@@ -173,77 +155,16 @@ class ClockFrame{
         JTextArea fontSize;
         JTextArea charArea;
         Color[] colors = {Color.white, Color.black, Color.red, Color.green, Color.blue, Color.yellow, Color.MAGENTA, Color.cyan};
+        String[] color = {"white","black","red","green","blue","yellow", "pink", "cyan"};
 
-        /*Settings(){
-
-
-            //frame = new JFrame();
-           // frame.setTitle("settings");
-           // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-            panel = new JPanel();
-            panel.setLayout(new GridLayout(2,4));
-
-
-            JTextArea textOne = new JTextArea();
-            textOne.setEditable(false);
-            textOne.setText("размер шрифта:");
-
-            JTextArea textTwo = new JTextArea();
-            textTwo.setEditable(false);
-            textTwo.setText("цвет фона: ");
-
-            JTextArea textThree = new JTextArea();
-            textThree.setEditable(false);
-            textThree.setText("цвет шрифта");
-
-            JTextArea textFour = new JTextArea();
-            textFour.setEditable(false);
-            textFour.setText("символ: ");
-
-
-
-            frontColor = new JComboBox(colors);
-            backColor = new JComboBox(colors);
-
-            charArea = new JTextArea(1,1);
-            charArea.setText("*");
-            fontSize = new JTextArea(1,2);
-            fontSize.setText("24");
-
-            panel.add(textOne);
-            panel.add(fontSize);
-
-            panel.add(textFour);
-            panel.add(charArea);
-
-            panel.add(textThree);
-            panel.add(frontColor);
-
-            panel.add(textTwo);
-            panel.add(backColor);
-
-            JPanel savePanel = new JPanel();
-
-            JButton saveButton = new JButton("Save");
-            saveButton.addActionListener(new SaveButtonListener());
-            savePanel.add(saveButton);
-
-            panel.add(saveButton,BorderLayout.SOUTH);
-            frame.add(panel);
-        }*/
 
         public void buildGui(){
-            //start = false;
-
             frame = new JFrame();
             frame.setTitle("settings");
-            //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             panel = new JPanel();
             panel.setLayout(new GridLayout(4,2));
 
-
             JTextArea textOne = new JTextArea();
             textOne.setEditable(false);
             textOne.setText("размер шрифта:");
@@ -260,10 +181,8 @@ class ClockFrame{
             textFour.setEditable(false);
             textFour.setText("символ: ");
 
-
-
-            frontColor = new JComboBox(colors);
-            backColor = new JComboBox(colors);
+            frontColor = new JComboBox(color);//(colors);
+            backColor = new JComboBox(color);
 
             charArea = new JTextArea(1,1);
             charArea.setText("*");
@@ -288,10 +207,8 @@ class ClockFrame{
             saveButton.addActionListener(new SaveButtonListener());
             savePanel.add(saveButton);
 
-            //panel.add(saveButton,BorderLayout.SOUTH);
             frame.getContentPane().add(BorderLayout.CENTER, panel);
             frame.getContentPane().add(BorderLayout.SOUTH, saveButton);
-            //frame.add(panel);
             frame.setVisible(true);
             frame.pack();
         }
@@ -331,18 +248,48 @@ class ClockFrame{
             }else {
                 System.out.println("Строка символа пуста");
             }
-            //newFont = symbol;
         }
 
         public void setBackColor(){
-            Color color = (Color) backColor.getSelectedItem();
-            //textArea.setBackground(color);
+            Color color = getColor((String)backColor.getSelectedItem());//(Color) backColor.getSelectedItem();
+            textArea.setBackground(color);
 
         }
 
         public void setFrontColor(){
-            Color color = (Color) backColor.getSelectedItem();
-            //textArea.setForeground(color);
+            Color color = getColor((String)frontColor.getSelectedItem());//(Color) frontColor.getSelectedItem();
+            textArea.setForeground(color);
+        }
+
+        public Color getColor(String color){
+            Color color1 = Color.white;
+            switch(color){
+                case ("white"):
+                    color1 = Color.white;
+                    break;
+                case ("black"):
+                    color1 = Color.black;
+                    break;
+                case ("red"):
+                    color1 = Color.red;
+                    break;
+                case ("green"):
+                    color1 = Color.blue;
+                    break;
+                case ("blue"):
+                    color1 = Color.blue;
+                    break;
+                case ("yellow"):
+                    color1 = Color.yellow;
+                    break;
+                case("pink"):
+                    color1 = Color.magenta;
+                    break;
+                case("cyan"):
+                    color1 = Color.cyan;
+                    break;
+            }
+            return color1;
         }
 
 
